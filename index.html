@@ -1,72 +1,32 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Simulateur de Combat</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      padding: 20px;
-      background-color: #f7f7f7;
-    }
-    h1, h2 {
-      color: #333;
-    }
-    .section {
-      margin-bottom: 20px;
-    }
-    .select-button {
-      margin: 3px;
-      padding: 10px 14px;
-      border: 1px solid #ccc;
-      background-color: #fff;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .select-button:hover {
-      background-color: #e0f0ff;
-    }
-    .selected {
-      background-color: #b3d9ff;
-      border-color: #3399ff;
-    }
-    #output {
-      background-color: #fff;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 15px;
-      margin-bottom: 20px;
-    }
-    button#calculer {
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #3399ff;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    button#calculer:hover {
-      background-color: #007acc;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+
   <h1>Simulateur de Combat</h1>
 
-  <div id="output">Sélectionnez un joueur et un ennemi, puis cliquez sur "Calculer".</div>
-
   <div class="section">
-    <h2>Équipe Joueur</h2>
-    <div id="joueursList"></div>
+    <h2>Choisir une équipe joueur :</h2>
+    <div id="joueursList" class="list-container"></div>
   </div>
 
   <div class="section">
-    <h2>Équipe Adverse</h2>
-    <div id="ennemisList"></div>
+    <h2>Choisir une équipe ennemie :</h2>
+    <div id="ennemisList" class="list-container"></div>
   </div>
 
-  <button id="calculer">Calculer</button>
+  <div class="section">
+    <button id="btnCalculer">Calculer</button>
+  </div>
+
+  <div id="output" class="section">
+    <h3>Résultats affichés ici...</h3>
+  </div>
 
   <script src="simulateur.js"></script>
 </body>
