@@ -1,0 +1,28 @@
+* {
+  font-family: "Nunito", sans-serif;
+}
+.list-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.main-container {
+  display: flex;
+  justidy-content: space-between;
+}
+.selected {
+  background-color: #6400c2;
+  color: white;
+}
+
+button {
+  border-radius: 50px;
+  margin: 10px;
+}
+#btnCalculer {
+  background-color: black;
+  color: white;
+  font-weight: bold;
+  padding: 20px;
+  margin-top: 20px;
+}
