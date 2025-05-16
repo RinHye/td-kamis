@@ -5,12 +5,7 @@
   display: flex;
   flex-direction: column;
 }
-#btnCalculer {
-  background-color: black;
-  color: white;
-  font-weight: bold;
-  padding: 20px;
-}
+
 .main-container {
   display: flex;
   justidy-content: space-between;
@@ -22,4 +17,12 @@
 
 button {
   border-radius: 50px;
+  margin: 10px;
+}
+#btnCalculer {
+  background-color: black;
+  color: white;
+  font-weight: bold;
+  padding: 20px;
+  margin-top: 20px;
 }
