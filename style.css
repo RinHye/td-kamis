@@ -1,4 +1,12 @@
+* {
+  font-family: "Nunito", sans-serif;
+}
 .list-container {
   display: flex;
   flex-direction: column;
+}
+#btnCalculer {
+  background-color: black;
+  color: white;
+  font-weight: bold;
 }
