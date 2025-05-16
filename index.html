@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Simulateur de Combat</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    .select-button {
+      margin: 2px;
+      padding: 8px;
+      border: 1px solid #ccc;
+      background-color: #f2f2f2;
+      cursor: pointer;
+    }
+    .selected {
+      background-color: #b3d9ff;
+    }
+  </style>
+</head>
+<body>
+  <h1>Simulateur de Combat</h1>
+  <div>
+    <h2>Joueurs</h2>
+    <div id="joueursList"></div>
+  </div>
+  <div>
+    <h2>Ennemis</h2>
+    <div id="ennemisList"></div>
+  </div>
+  <div id="output" style="margin-top: 20px;"></div>
+  <script src="simulateur.js"></script>
+</body>
+</html>
