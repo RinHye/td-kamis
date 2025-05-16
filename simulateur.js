@@ -45,6 +45,39 @@ function simulateFight(joueur, ennemi) {
   };
 }
 
+function createOptionList(containerId, list, isJoueur) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = "";
+  list.forEach((item) => {
+    const btn = document.createElement("button");
+    btn.textContent = `${item.pseudo} (${item.element})`;
+    btn.className = "select-button";
+    btn.type = "button";
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(`#${containerId} .select-button`).forEach(b => b.classList.remove("selected"));
+      btn.classList.add("selected");
+      if (isJoueur) window.selectedJoueur = item;
+      else window.selectedEnnemi = item;
+    });
+    container.appendChild(btn);
+  });
+}
+
+function afficherResultats() {
+  if (!window.selectedJoueur || !window.selectedEnnemi) {
+    alert("Merci de sélectionner une équipe joueur ET une équipe ennemie !");
+    return;
+  }
+  const resultats = simulateFight(window.selectedJoueur, window.selectedEnnemi);
+  const output = document.getElementById("output");
+  output.innerHTML = `
+    <h3>Combat : ${resultats.joueur} VS ${resultats.ennemi}</h3>
+    <p><strong>Nombre de KO nécessaire :</strong> ${resultats.nbKo}</p>
+    <p><strong>Nombre d'équipes nécessaires :</strong> ${resultats.nbEquipes}</p>
+    <p><strong>Marge d'erreur +20 :</strong> ${resultats.margeErreur}</p>
+  `;
+}
+
 const joueurs = [
   { pseudo: "Rin", puissance: 31317255, element: "feuille", puissanceMain: 18109647, nbMembre: 6 },
   { pseudo: "Goma", puissance: 24956617, element: "feuille", puissanceMain: 16709083, nbMembre: 6 },
@@ -101,39 +134,6 @@ const ennemis = [
   { pseudo: "call.us.angel", puissance: 5033258 + 3395647 + 140431 + 100311 + 65022 + 65169, element: "feuille" },
   { pseudo: "Rosalin", puissance: 7828113 - 161532 + 212231, element: "feu" }
 ];
-
-function createOptionList(containerId, list, isJoueur) {
-  const container = document.getElementById(containerId);
-  container.innerHTML = ""; // Reset au cas où
-  list.forEach((item) => {
-    const btn = document.createElement("button");
-    btn.textContent = `${item.pseudo} (${item.element})`;
-    btn.className = "select-button";
-    btn.type = "button"; // Évite submit si dans form
-    btn.addEventListener("click", () => {
-      document.querySelectorAll(`#${containerId} .select-button`).forEach(b => b.classList.remove("selected"));
-      btn.classList.add("selected");
-      if (isJoueur) window.selectedJoueur = item;
-      else window.selectedEnnemi = item;
-    });
-    container.appendChild(btn);
-  });
-}
-
-function afficherResultats() {
-  if (!window.selectedJoueur || !window.selectedEnnemi) {
-    alert("Merci de sélectionner une équipe joueur ET une équipe ennemie !");
-    return;
-  }
-  const resultats = simulateFight(window.selectedJoueur, window.selectedEnnemi);
-  const output = document.getElementById("output");
-  output.innerHTML = `
-    <h3>Combat : ${resultats.joueur} VS ${resultats.ennemi}</h3>
-    <p><strong>Nombre de KO nécessaire :</strong> ${resultats.nbKo}</p>
-    <p><strong>Nombre d'équipes nécessaires :</strong> ${resultats.nbEquipes}</p>
-    <p><strong>Marge d'erreur +20 :</strong> ${resultats.margeErreur}</p>
-  `;
-}
 
 document.addEventListener("DOMContentLoaded", () => {
   createOptionList("joueursList", joueurs, true);
