@@ -11,3 +11,7 @@
   font-weight: bold;
   padding: 20px;
 }
+.main-container {
+  display: flex;
+  justidy-content: space-between;
+}
