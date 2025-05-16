@@ -74,12 +74,32 @@ const ennemis = [
   { pseudo: "Tsubasa hanae", puissance: 19339056, element: "feu" },
   { pseudo: "Devlin", puissance: 17067007, element: "feuille" },
   { pseudo: "Zhao Yunlan", puissance: 10386108 + 5067970 + 591461 + 408430 + 170739 + 122041, element: "feu" },
+
   { pseudo: "Anya", puissance: 16302494, element: "feu" },
+
   { pseudo: "YumejiTM", puissance: 8739795 + 4552569 + 1521903 + 907120 + 298680 + 107065, element: "eau" },
   { pseudo: "Gojo", puissance: 11074737 + 762569 + 2137501 + 324572 + 299050 + 262610, element: "feuille" },
   { pseudo: "Taiga Hoshibami", puissance: 10224196 + 3451899 + 647524 + 565399 + 357480 + 251057, element: "feuille" },
   { pseudo: "Meer", puissance: 9174115, element: "eau" },
-  { pseudo: "Affellia Light", puissance: 14618444, element: "eau" }
+  { pseudo: "Affellia Light", puissance: 14618444, element: "eau" },
+
+  { pseudo: "Madame Lexie", puissance: 14749317, element: "eau" },
+  { pseudo: "fuyu", puissance: 13949428, element: "feuille" },
+  { pseudo: "Madden", puissance: 6400990 + 5775904 + 863088 + 142039 + 129686 + 66338, element: "eau" },
+  { pseudo: "Alana", puissance: 11491543, element: "eau" },
+  { pseudo: "Mr.Scarletella", puissance: 8791442 + 1558141 + 574910 + 371056 + 80782 + 62312, element: "feuille" },
+
+  { pseudo: "Yuka", puissance: 10726683, element: "eau" },
+  { pseudo: "Luna-Terra", puissance: 6619095 + 893682 + 295479 + 268545 + 267424 + 202262, element: "feu" },
+  { pseudo: "jade:3", puissance: 10636463, element: "feuille" },
+  { pseudo: "Aria", puissance: 9697723, element: "feuille" },
+  { pseudo: "Akira", puissance: 8222743, element: "feu" },
+
+  { pseudo: "j", puissance: 6806681, element: "feu" },
+  { pseudo: "ronin", puissance: 7937578, element: "feu" },
+  { pseudo: "Personne", puissance: 9188391, element: "feu" },
+  { pseudo: "call.us.angel", puissance: 5033258 + 3395647 + 140431 + 100311 + 65022 + 65169, element: "feuille" },
+  { pseudo: "Rosalin", puissance: 7828113 - 161532 + 212231, element: "feu" }
 ];
 
 function createOptionList(containerId, list, isJoueur) {
