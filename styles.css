@@ -15,3 +15,11 @@
   display: flex;
   justidy-content: space-between;
 }
+.selected {
+  background-color: #6400c2;
+  color: white;
+}
+
+button {
+  border-radius: 50px;
+}
