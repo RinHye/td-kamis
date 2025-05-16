@@ -80,4 +80,25 @@ const relationsElement = {
       `;
     });
   });
-  
+document.addEventListener("DOMContentLoaded", () => {
+  createOptionList("joueursList", joueurs, true);
+  createOptionList("ennemisList", ennemis, false);
+
+  document.getElementById("calculer").addEventListener("click", () => {
+    checkAndSimulate();
+  });
+});
+function checkAndSimulate() {
+  const output = document.getElementById("output");
+  if (window.selectedJoueur && window.selectedEnnemi) {
+    const resultats = simulateFight(window.selectedJoueur, window.selectedEnnemi);
+    output.innerHTML = `
+      <h3>Combat : ${resultats.joueur} VS ${resultats.ennemi}</h3>
+      <p><strong>Nombre de KO nécessaire :</strong> ${resultats.nbKo}</p>
+      <p><strong>Nombre d'équipes nécessaires :</strong> ${resultats.nbEquipes}</p>
+      <p><strong>Marge d'erreur 20 :</strong> ${resultats.margeErreur}</p>
+    `;
+  } else {
+    output.innerHTML = "<p>Veuillez sélectionner un joueur et un ennemi avant de lancer le calcul.</p>";
+  }
+}
