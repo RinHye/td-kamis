@@ -7,30 +7,53 @@
     body {
       font-family: sans-serif;
       padding: 20px;
+      background-color: #f7f7f7;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    .section {
+      margin-bottom: 20px;
     }
     .select-button {
-      margin: 2px;
-      padding: 8px;
+      margin: 3px;
+      padding: 10px 14px;
       border: 1px solid #ccc;
-      background-color: #f2f2f2;
+      background-color: #fff;
+      border-radius: 6px;
       cursor: pointer;
+    }
+    .select-button:hover {
+      background-color: #e0f0ff;
     }
     .selected {
       background-color: #b3d9ff;
+      border-color: #3399ff;
+    }
+    #output {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 15px;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
   <h1>Simulateur de Combat</h1>
-  <div>
-    <h2>Joueurs</h2>
+
+  <div class="section">
+    <h2>Liste des Joueurs</h2>
     <div id="joueursList"></div>
   </div>
-  <div>
-    <h2>Ennemis</h2>
+
+  <div class="section">
+    <h2>Liste des Ennemis</h2>
     <div id="ennemisList"></div>
   </div>
-  <div id="output" style="margin-top: 20px;"></div>
+
+  <div id="output"></div>
+
   <script src="simulateur.js"></script>
 </body>
 </html>
