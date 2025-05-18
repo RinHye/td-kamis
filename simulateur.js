@@ -50,7 +50,7 @@ function createOptionList(containerId, list, isJoueur) {
   container.innerHTML = "";
   list.forEach((item) => {
     const btn = document.createElement("button");
-    btn.textContent = `${item.pseudo} (${item.element})`;
+    btn.textContent = `${item.pseudo} (${item.element}) ${item.puissance}`;
     btn.className = "select-button";
     btn.type = "button";
     btn.addEventListener("click", () => {
@@ -72,8 +72,9 @@ function afficherResultats() {
   const output = document.getElementById("output");
   output.innerHTML = `
     <h3>Combat : ${resultats.joueur} VS ${resultats.ennemi}</h3>
-    <p><strong>Nombre de KO nécessaire :</strong> ${resultats.nbKo}</p>
-    <p><strong>Nombre d'équipes nécessaires :</strong> ${resultats.nbEquipes}</p>
+    <p><strong>KO nécessaires :</strong> ${resultats.nbKo}</p>
+    <p><strong>Equipes* nécessaires :</strong> ${resultats.nbEquipes}</p>
+    <small><i>Une équipe de 6*</i></small>
     <p><strong>Marge d'erreur +20 :</strong> ${resultats.margeErreur}</p>
   `;
 }
@@ -141,4 +142,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const btn = document.getElementById("btnCalculer");
   btn.addEventListener("click", afficherResultats);
+});
+
+window.addEventListener('scroll', function() {
+  const div = document.getElementById('resDiv');
+
+  // Option : déclenchement quand on a scrollé de 100px ou plus
+  if (window.scrollY > 300) {
+    div.classList.add('active');
+  } else {
+    div.classList.remove('active');
+  }
 });

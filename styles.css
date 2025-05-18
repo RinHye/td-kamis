@@ -1,6 +1,10 @@
 * {
   font-family: "Nunito", sans-serif;
 }
+body, main, html {
+  margin: auto;
+  max-width: 1200px;
+}
 .list-container {
   display: flex;
   flex-direction: column;
@@ -8,7 +12,7 @@
 
 .main-container {
   display: flex;
-  justidy-content: space-between;
+  justify-content: space-between;
 }
 .selected {
   background-color: #6400c2;
@@ -16,13 +20,35 @@
 }
 
 button {
-  border-radius: 50px;
   margin: 10px;
+  border-style: none;
 }
+.select-button {
+  border-radius: 2px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
 #btnCalculer {
   background-color: black;
+  border-radius: 50px;
+
   color: white;
   font-weight: bold;
   padding: 20px;
   margin-top: 20px;
+}
+
+.resultats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid #6400c2;
+  background-color: rgb(236, 218, 255);
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.active {
+  position: fixed;
 }

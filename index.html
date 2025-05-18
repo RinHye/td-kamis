@@ -10,27 +10,31 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <main>
+    <h1>Simulateur de Combat</h1>
 
-  <h1>Simulateur de Combat</h1>
-  <div class="main-container">
-      <div class="section">
-        <h2>Choisir une équipe joueur :</h2>
-        <div id="joueursList" class="list-container"></div>
+      <div class="resultats" id="resDiv">
+        <div id="output" class="section">
+          <h3>Résultats affichés ici...</h3>
+        </div>
+        <div class="section">
+          <button id="btnCalculer">Afficher le résultat</button>
+        </div>
       </div>
-    
-      <div class="section">
-        <h2>Choisir une équipe ennemie :</h2>
-        <div id="ennemisList" class="list-container"></div>
+
+      <div class="main-container">
+          <div class="section">
+            <h2>Choisir un Kamisien :</h2>
+            <div id="joueursList" class="list-container"></div>
+          </div>
+        
+          <div class="section">
+            <h2>Choisir un mafieux :</h2>
+            <div id="ennemisList" class="list-container"></div>
+          </div>
       </div>
-  </div>
-
-  <div class="section">
-    <button id="btnCalculer">Calculer</button>
-  </div>
-
-  <div id="output" class="section">
-    <h3>Résultats affichés ici...</h3>
-  </div>
+  </main>
+  
 
   <script src="simulateur.js"></script>
 </body>
