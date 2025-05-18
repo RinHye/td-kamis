@@ -5,6 +5,9 @@ body, main, html {
   margin: auto;
   max-width: 1200px;
 }
+h2 {
+  margin-left: 8px;
+}
 .list-container {
   display: flex;
   flex-direction: column;
@@ -51,4 +54,5 @@ button {
 
 .active {
   position: fixed;
+  top: 0;
 }
