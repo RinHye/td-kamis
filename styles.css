@@ -1,15 +1,25 @@
 * {
   font-family: "Nunito", sans-serif;
 }
+
 body, main, html {
   margin: auto;
   max-width: 1200px;
 }
+
 body {
   padding: 5px;
 }
+
 h2 {
   margin-left: 8px;
+}
+
+h3 {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  color: #2f2c37;
 }
 
 .list-container {
@@ -22,27 +32,35 @@ h2 {
   justify-content: space-between;
   margin-top: 25px;
 }
+
 .selected {
   background-color: #4b9455;
   color: white;
 }
+
 .section {
-  width: 50%;
+  @media screen and (min-width: 500px) {
+    width: 50%;
+  }
 }
+
 .separator-left {
   border-left: 2px solid #f6ebff;
 }
+
 button {
   margin: 10px;
   border-style: none;
   --color: #560bad;
-
 }
+
 .select-button {
   border-radius: 2px;
   padding-top: 10px;
   padding-bottom: 10px;
 }
+
+/* ===== Bouton Calculer ===== */
 
 #btnCalculer {
   text-transform: uppercase;
@@ -71,16 +89,13 @@ button {
   height: 150px;
   width: 200px;
   border-radius: 50%;
+  top: 100%;
+  left: 100%;
+  transition: all 0.7s;
 }
 
 #btnCalculer:hover {
   color: #fff;
-}
-
-#btnCalculer:before {
-  top: 100%;
-  left: 100%;
-  transition: all 0.7s;
 }
 
 #btnCalculer:hover:before {
@@ -92,9 +107,12 @@ button {
   background: #3a0ca3;
   transition: background 0s;
 }
+
+/* ===== Boîte Résultats ===== */
+
 .resultats {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
   border: 2px solid #6400c2;
   background-color: rgb(236, 218, 255);
@@ -102,8 +120,49 @@ button {
   padding: 20px;
 }
 
+.resultats .content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+
+  /* animation de pliage */
+  max-height: 400px;
+  overflow: hidden;
+  transition: max-height 0.5s ease, padding 0.3s ease;
+    @media screen and (max-width: 500px) {
+    flex-direction: column;
+  }
+}
+
+.resultats .content.collapsed {
+  max-height: 0;
+  padding: 0;
+}
+
+.toggle-arrow {
+  margin-top: 8px;
+  cursor: pointer;
+  font-size: 22px;
+  color: #6400c2;
+  transition: transform 0.3s ease;
+}
+
+.toggle-arrow.rotated i {
+  transform: rotate(180deg);
+}
+
+.toggle-arrow i {
+  color: #6400c2;
+  font-size: 20px;
+}
+
+/* utile si jamais tu veux du contenu collé en haut */
 .active {
   position: fixed;
   top: 0;
+  width: auto;
   left: 0;
+  right: 0;
 }

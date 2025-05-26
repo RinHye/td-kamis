@@ -166,6 +166,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const btn = document.getElementById("btnCalculer");
   btn.addEventListener("click", afficherResultats);
+  const toggleArrow = document.getElementById("toggleArrow");
+
+  toggleArrow.addEventListener("click", () => {
+    contentRes.classList.toggle("collapsed");
+
+    // Faire tourner l'icône (↑ ou ↓)
+    const icon = toggleArrow.querySelector("i");
+    icon.classList.toggle("fa-chevron-down");
+    icon.classList.toggle("fa-chevron-up");
+  });
 });
 
 window.addEventListener('scroll', function() {
