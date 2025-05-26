@@ -5,9 +5,13 @@ body, main, html {
   margin: auto;
   max-width: 1200px;
 }
+body {
+  padding: 5px;
+}
 h2 {
   margin-left: 8px;
 }
+
 .list-container {
   display: flex;
   flex-direction: column;
@@ -16,15 +20,23 @@ h2 {
 .main-container {
   display: flex;
   justify-content: space-between;
+  margin-top: 25px;
 }
 .selected {
-  background-color: #6400c2;
+  background-color: #4b9455;
   color: white;
 }
-
+.section {
+  width: 50%;
+}
+.separator-left {
+  border-left: 2px solid #f6ebff;
+}
 button {
   margin: 10px;
   border-style: none;
+  --color: #560bad;
+
 }
 .select-button {
   border-radius: 2px;
@@ -33,15 +45,53 @@ button {
 }
 
 #btnCalculer {
-  background-color: black;
+  text-transform: uppercase;
+  display: inline-block;
+  width: 8em;
+  height: 2.6em;
+  line-height: 2.5em;
+  margin: 20px;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  transition: color 0.5s;
+  z-index: 1;
+  font-size: 17px;
   border-radius: 50px;
-
+  font-weight: 500;
   color: white;
-  font-weight: bold;
-  padding: 20px;
-  margin-top: 20px;
+  background-color: black;
 }
 
+#btnCalculer:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  background: var(--color);
+  height: 150px;
+  width: 200px;
+  border-radius: 50%;
+}
+
+#btnCalculer:hover {
+  color: #fff;
+}
+
+#btnCalculer:before {
+  top: 100%;
+  left: 100%;
+  transition: all 0.7s;
+}
+
+#btnCalculer:hover:before {
+  top: -30px;
+  left: -30px;
+}
+
+#btnCalculer:active:before {
+  background: #3a0ca3;
+  transition: background 0s;
+}
 .resultats {
   display: flex;
   justify-content: space-between;
@@ -55,4 +105,5 @@ button {
 .active {
   position: fixed;
   top: 0;
+  left: 0;
 }
