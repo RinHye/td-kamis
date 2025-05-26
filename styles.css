@@ -21,7 +21,13 @@ h3 {
   text-transform: uppercase;
   color: #2f2c37;
 }
-
+.big-title {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 1.6rem;
+  text-transform: uppercase;
+  color: #2f2c37;
+  text-align: center;
+}
 .list-container {
   display: flex;
   flex-direction: column;
