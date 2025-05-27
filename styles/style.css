@@ -16,18 +16,24 @@ h2 {
 }
 
 h3 {
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   font-size: 1.2rem;
   text-transform: uppercase;
   color: #2f2c37;
 }
+
 .big-title {
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   font-size: 1.6rem;
   text-transform: uppercase;
   color: #2f2c37;
   text-align: center;
 }
+
+.bold {
+  font-weight: bold;
+}
+
 .list-container {
   display: flex;
   flex-direction: column;
@@ -40,12 +46,12 @@ h3 {
 }
 
 .selected {
-  background-color: #4b9455;
+  background-color: #ed87e8;
   color: white;
 }
 
-.section {
-  @media screen and (min-width: 500px) {
+@media screen and (min-width: 500px) {
+  .section {
     width: 50%;
   }
 }
@@ -60,13 +66,36 @@ button {
   --color: #560bad;
 }
 
+.etiquette {
+  border-radius: 20px;
+  color: white;
+  padding: 0 10px;
+}
+.etiquette-feu {
+  background-color: #c43400;
+}
+.etiquette-eau {
+  background-color: #0048d9;
+}
+.etiquette-feuille {
+  background-color: #009e4d;
+}
+
+.nom-et-element {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.nom-et-element .bold {
+  font-size: 1rem;
+}
+
 .select-button {
   border-radius: 2px;
   padding-top: 10px;
   padding-bottom: 10px;
 }
-
-/* ===== Bouton Calculer ===== */
 
 #btnCalculer {
   text-transform: uppercase;
@@ -86,7 +115,6 @@ button {
   color: white;
   background-color: black;
 }
-
 #btnCalculer:before {
   content: "";
   position: absolute;
@@ -99,22 +127,17 @@ button {
   left: 100%;
   transition: all 0.7s;
 }
-
 #btnCalculer:hover {
   color: #fff;
 }
-
 #btnCalculer:hover:before {
   top: -30px;
   left: -30px;
 }
-
 #btnCalculer:active:before {
   background: #3a0ca3;
   transition: background 0s;
 }
-
-/* ===== Boîte Résultats ===== */
 
 .resultats {
   display: flex;
@@ -125,23 +148,21 @@ button {
   border-radius: 10px;
   padding: 20px;
 }
-
 .resultats .content {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   width: 100%;
-
   /* animation de pliage */
   max-height: 400px;
   overflow: hidden;
   transition: max-height 0.5s ease, padding 0.3s ease;
-    @media screen and (max-width: 500px) {
+}
+@media screen and (max-width: 500px) {
+  .resultats .content {
     flex-direction: column;
   }
 }
-
 .resultats .content.collapsed {
   max-height: 0;
   padding: 0;
@@ -154,17 +175,14 @@ button {
   color: #6400c2;
   transition: transform 0.3s ease;
 }
-
 .toggle-arrow.rotated i {
   transform: rotate(180deg);
 }
-
 .toggle-arrow i {
   color: #6400c2;
   font-size: 20px;
 }
 
-/* utile si jamais tu veux du contenu collé en haut */
 .active {
   position: fixed;
   top: 0;
@@ -172,3 +190,5 @@ button {
   left: 0;
   right: 0;
 }
+
+/*# sourceMappingURL=style.css.map */

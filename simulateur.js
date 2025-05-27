@@ -72,9 +72,27 @@ function createOptionList(containerId, list, isJoueur) {
   container.innerHTML = "";
   list.forEach((item) => {
     const btn = document.createElement("button");
-    btn.textContent = `${item.pseudo} (${item.element}) ${item.puissance}`;
+    // Créer l'étiquette pour l'élément
+    let etiquetteClass = "etiquette";
+    if (item.element === "feu") {
+      etiquetteClass += " etiquette-feu";
+    } else if (item.element === "eau") {
+      etiquetteClass += " etiquette-eau";
+    } else if (item.element === "feuille") {
+      etiquetteClass += " etiquette-feuille";
+    }
+    
+    btn.innerHTML = 
+    `<div class="nom-et-element">
+        <span class="bold">${item.pseudo}</span>
+        <div class="${etiquetteClass}">${item.element}</div>
+    </div>
+    <div>
+      <span class="bold">Puissance : </span>${item.puissance}
+    </div>`;
     btn.className = "select-button";
     btn.type = "button";
+    
     btn.addEventListener("click", () => {
       document.querySelectorAll(`#${containerId} .select-button`).forEach(b => b.classList.remove("selected"));
       btn.classList.add("selected");
