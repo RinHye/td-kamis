@@ -3,10 +3,6 @@
 ## Étapes d'installation
 
 ```bash
-# Installer nvm (Node Version Manager)
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-source ~/.bashrc
-nvm --version
 
 # Installer Node.js version LTS et l'utiliser
 nvm install --lts
@@ -23,8 +19,8 @@ sass --version
 
 ```bash
 # Compiler un fichier SCSS en CSS une fois
-sass styles/style.scss styles/style.css
+sass sass styles.scss styles/style.css
 
 # Compiler en mode "watch" (surveillance des changements)
-sass --watch styles/style.scss:styles/style.css
+sass --watch styles.scss:styles/style.css
 ```
