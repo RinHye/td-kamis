@@ -19,7 +19,7 @@ sass --version
 
 ```bash
 # Compiler un fichier SCSS en CSS une fois
-sass sass styles.scss styles/style.css
+sass styles.scss styles/style.css
 
 # Compiler en mode "watch" (surveillance des changements)
 sass --watch styles.scss:styles/style.css
