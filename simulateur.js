@@ -46,6 +46,7 @@ function simulationCombat(joueur, ennemi) {
     nbEquipesFinal: Math.ceil((Math.ceil(nbKo) + margeErreur) / joueur.nbMembre)
   };
 }
+
 function getMargeErreur(nbKo, joueur, ennemi) {
   const diffPuissance = Math.abs(joueur.puissance - ennemi.puissance);
   const ratioIncertain = diffPuissance / ennemi.puissance;
@@ -120,30 +121,72 @@ function afficherResultats() {
     <small><i>Une équipe complète est composée de 6 personnes, soit 6 KO</i></small>
   `;
 }
-// A rendre dynamique
-const joueurs = [
-  { pseudo: "Rin", puissance: 31842693, element: "feuille", puissanceMain: 18211871, nbMembre: 6 },
-  { pseudo: "Goma", puissance: 25227318, element: "feuille", puissanceMain: 16848520, nbMembre: 6 },
-  { pseudo: "Elokyo", puissance: 16223932, element: "feu", puissanceMain: 10373294, nbMembre: 6 },
-  { pseudo: "Yoru", puissance: 18625638, element: "eau", puissanceMain: 8103337, nbMembre: 6 },
-  { pseudo: "Asti", puissance: 17489922, element: "feu", puissanceMain: 8656855, nbMembre: 6 },
-  { pseudo: "Linouille", puissance: 14481143, element: "eau", puissanceMain: 9693514, nbMembre: 6 },
-  { pseudo: "El", puissance: 13433882, element: "feuille", puissanceMain: 9676477, nbMembre: 6 },
-  { pseudo: "Kooks", puissance: 12548272, element: "eau", puissanceMain: 7721455, nbMembre: 6 },
-  { pseudo: "YangireEau", puissance: 14154922, element: "eau", puissanceMain: 5971452, nbMembre: 6 },
-  { pseudo: "Motte", puissance: 11801210, element: "feu", puissanceMain: 6062788, nbMembre: 6 },
-  { pseudo: "Airi", puissance: 11346223, element: "feu", puissanceMain: 5224212, nbMembre: 6 },
-  { pseudo: "chloee", puissance: 10771918, element: "feu", puissanceMain: 7069572, nbMembre: 6 },
-  { pseudo: "Evednie", puissance: 10373533, element: "feu", puissanceMain: 5878067, nbMembre: 6 },
-  { pseudo: "Aria", puissance: 9106326, element: "feu", puissanceMain: 3017793, nbMembre: 6 },
-  { pseudo: "Healu", puissance: 5853106, element: "feu", puissanceMain: 5050603, nbMembre: 6 },
-  { pseudo: "Alexandra76", puissance: 6843700, element: "feu", puissanceMain: 4134498, nbMembre: 6 },
-  { pseudo: "Teddy", puissance: 5488418, element: "feu", puissanceMain: 1795442, nbMembre: 6 },
-  { pseudo: "Eclipse", puissance: 2863933, element: "eau", puissanceMain: 1895888, nbMembre: 6 },
-  { pseudo: "Inari", puissance: 2320883, element: "eau", puissanceMain: 1143205, nbMembre: 6 },
-  { pseudo: "Marrouf", puissance: 2302923, element: "eau", puissanceMain: 1089819, nbMembre: 6 }
-];
 
+// Fonction pour charger les données du Google Sheets
+async function chargerJoueursDepuisSheets() {
+  const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTEMMJK57wJeclZwYw8ayCOhO9hx8uMpIbLKadj7axvVCWR_x18N6F9BwQDt7LgZA/pub?gid=955213893&single=true&output=csv";
+  
+  try {
+    const response = await fetch(url);
+    const csvText = await response.text();
+    
+    const lignes = csvText.split('\n');
+    const joueurs = [];
+    
+    // Ignorer la première ligne (headers) et traiter les autres
+    for (let i = 1; i < lignes.length; i++) {
+      const ligne = lignes[i].trim();
+      
+      // Sauter les lignes vides
+      if (!ligne) continue;
+      
+      const colonnes = ligne.split(',');
+      
+      // Vérifier qu'on a au moins 4 colonnes et que les données ne sont pas vides
+      if (colonnes.length >= 4 && colonnes[0].trim() && colonnes[1].trim() && colonnes[2].trim() && colonnes[3].trim()) {
+        const pseudo = colonnes[0].trim().replace(/"/g, ''); // Enlever les guillemets si présents
+        const puissance = parseInt(colonnes[1].trim().replace(/"/g, ''));
+        const puissanceMain = parseInt(colonnes[2].trim().replace(/"/g, ''));
+        const element = colonnes[3].trim().replace(/"/g, '').toLowerCase();
+        
+        // Vérifier que les puissances sont des nombres valides
+        if (!isNaN(puissance) && !isNaN(puissanceMain) && pseudo && element) {
+          joueurs.push({
+            pseudo: pseudo,
+            puissance: puissance,
+            element: element,
+            puissanceMain: puissanceMain,
+            nbMembre: 6
+          });
+        }
+      }
+    }
+    
+    return joueurs;
+  } catch (error) {
+    console.error("Erreur lors du chargement des données:", error);
+    alert("Erreur lors du chargement des données du Google Sheets. Utilisation des données par défaut.");
+    return getJoueursParDefaut();
+  }
+}
+
+// Données par défaut en cas d'erreur
+function getJoueursParDefaut() {
+  return [
+    { pseudo: "Rin", puissance: 31842693, element: "feuille", puissanceMain: 18211871, nbMembre: 6 },
+    { pseudo: "Goma", puissance: 25227318, element: "feuille", puissanceMain: 16848520, nbMembre: 6 },
+    { pseudo: "Elokyo", puissance: 16223932, element: "feu", puissanceMain: 10373294, nbMembre: 6 },
+    { pseudo: "Yoru", puissance: 18625638, element: "eau", puissanceMain: 8103337, nbMembre: 6 },
+    { pseudo: "Asti", puissance: 17489922, element: "feu", puissanceMain: 8656855, nbMembre: 6 },
+    { pseudo: "Linouille", puissance: 14481143, element: "eau", puissanceMain: 9693514, nbMembre: 6 },
+    { pseudo: "El", puissance: 13433882, element: "feuille", puissanceMain: 9676477, nbMembre: 6 },
+    { pseudo: "Kooks", puissance: 12548272, element: "eau", puissanceMain: 7721455, nbMembre: 6 },
+    { pseudo: "YangireEau", puissance: 14154922, element: "eau", puissanceMain: 5971452, nbMembre: 6 },
+    { pseudo: "Motte", puissance: 11801210, element: "feu", puissanceMain: 6062788, nbMembre: 6 }
+  ];
+}
+
+// Données ennemis (gardées en brut comme demandé)
 const ennemis = [
   { pseudo: "ares", puissance: 25439923, element: "eau" },
   { pseudo: "Jade", puissance: 23641875, element: "eau" },
@@ -178,7 +221,10 @@ const ennemis = [
   { pseudo: "Rosalin", puissance: 7828113 - 161532 + 212231, element: "feu" }//
 ];
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+  // Charger les joueurs depuis Google Sheets
+  const joueurs = await chargerJoueursDepuisSheets();
+  
   createOptionList("joueursList", joueurs, true);
   createOptionList("ennemisList", ennemis, false);
 
