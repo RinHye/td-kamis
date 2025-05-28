@@ -122,7 +122,7 @@ function afficherResultats() {
   `;
 }
 
-// Fonction pour charger les données du Google Sheets
+// Fonction pour charger les données du Google Sheets - Joueurs (Forces guilde)
 async function chargerJoueursDepuisSheets() {
   const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTEMMJK57wJeclZwYw8ayCOhO9hx8uMpIbLKadj7axvVCWR_x18N6F9BwQDt7LgZA/pub?gid=955213893&single=true&output=csv";
   
@@ -164,13 +164,59 @@ async function chargerJoueursDepuisSheets() {
     
     return joueurs;
   } catch (error) {
-    console.error("Erreur lors du chargement des données:", error);
-    alert("Erreur lors du chargement des données du Google Sheets. Utilisation des données par défaut.");
+    console.error("Erreur lors du chargement des données joueurs:", error);
+    alert("Erreur lors du chargement des données des joueurs du Google Sheets. Utilisation des données par défaut.");
     return getJoueursParDefaut();
   }
 }
 
-// Données par défaut en cas d'erreur
+// Fonction pour charger les ennemis depuis Google Sheets - Ennemis (Forces ennemis)
+async function chargerEnnemisDepuisSheets() {
+  const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTEMMJK57wJeclZwYw8ayCOhO9hx8uMpIbLKadj7axvVCWR_x18N6F9BwQDt7LgZA/pub?gid=184683018&single=true&output=csv";
+  
+  try {
+    const response = await fetch(url);
+    const csvText = await response.text();
+    
+    const lignes = csvText.split('\n');
+    const ennemis = [];
+    
+    // Ignorer la première ligne (headers) et traiter les autres
+    for (let i = 1; i < lignes.length; i++) {
+      const ligne = lignes[i].trim();
+      
+      // Sauter les lignes vides
+      if (!ligne) continue;
+      
+      const colonnes = ligne.split(',');
+      
+      // Vérifier qu'on a au moins 3 colonnes et que les données ne sont pas vides
+      // Colonnes : Pseudo, Puissance totale, Elément du main
+      if (colonnes.length >= 3 && colonnes[0].trim() && colonnes[1].trim() && colonnes[2].trim()) {
+        const pseudo = colonnes[0].trim().replace(/"/g, ''); // Enlever les guillemets si présents
+        const puissance = parseInt(colonnes[1].trim().replace(/"/g, ''));
+        const element = colonnes[2].trim().replace(/"/g, '').toLowerCase();
+        
+        // Vérifier que la puissance est un nombre valide
+        if (!isNaN(puissance) && pseudo && element) {
+          ennemis.push({
+            pseudo: pseudo,
+            puissance: puissance,
+            element: element
+          });
+        }
+      }
+    }
+    
+    return ennemis;
+  } catch (error) {
+    console.error("Erreur lors du chargement des données ennemis:", error);
+    alert("Erreur lors du chargement des données des ennemis du Google Sheets. Utilisation des données par défaut.");
+    return getEnnemisParDefaut();
+  }
+}
+
+// Données par défaut en cas d'erreur - Joueurs
 function getJoueursParDefaut() {
   return [
     { pseudo: "Rin", puissance: 31842693, element: "feuille", puissanceMain: 18211871, nbMembre: 6 },
@@ -186,44 +232,42 @@ function getJoueursParDefaut() {
   ];
 }
 
-// Données ennemis (gardées en brut comme demandé)
-const ennemis = [
-  { pseudo: "ares", puissance: 25439923, element: "eau" },
-  { pseudo: "Jade", puissance: 23641875, element: "eau" },
-  { pseudo: "Tsubasa hanae", puissance: 19538495, element: "feu" },
-  { pseudo: "Devlin", puissance: 17145599, element: "feuille" },
-  { pseudo: "Zhao Yunlan", puissance: 10386108 + 5067970 + 591461 + 408430 + 170739 + 122041, element: "feu" },//
-
-  { pseudo: "Anya", puissance: 16462354, element: "feu" },
-
-  { pseudo: "YumejiTM", puissance: 8739795 + 4552569 + 1521903 + 907120 + 298680 + 107065, element: "eau" },//
-  { pseudo: "Gojo", puissance: 15086233, element: "feuille" },
-  { pseudo: "Taiga Hoshibami", puissance: 10224196 + 3451899 + 647524 + 565399 + 357480 + 251057, element: "feuille" },//
-  { pseudo: "Meer", puissance: 14145102, element: "eau" },
-  { pseudo: "Affellia Light", puissance: 14727803, element: "eau" },
-
-  { pseudo: "Madame Lexie", puissance: 14919300, element: "eau" },
-  { pseudo: "fuyu", puissance: 14045663, element: "feuille" },
-  { pseudo: "Madden", puissance: 6400990 + 5775904 + 863088 + 142039 + 129686 + 66338, element: "eau" },//
-  { pseudo: "Alana", puissance: 11697443, element: "eau" },
-  { pseudo: "Mr.Scarletella", puissance: 8791442 + 1558141 + 574910 + 371056 + 80782 + 62312, element: "feuille" },//
-
-  { pseudo: "Yuka", puissance: 10767518, element: "eau" },
-  { pseudo: "Luna-Terra", puissance: 6619095 + 893682 + 295479 + 268545 + 267424 + 202262, element: "feu" },//
-  { pseudo: "jade:3", puissance: 10927309, element: "feuille" },
-  { pseudo: "Aria", puissance: 9884378, element: "feuille" },
-  { pseudo: "Akira", puissance: 8281030, element: "feu" },
-
-  { pseudo: "j", puissance: 6835508, element: "feu" },
-  { pseudo: "ronin", puissance: 8279934, element: "feu" },
-  { pseudo: "Personne", puissance: 9215098, element: "feu" },
-  { pseudo: "call.us.angel", puissance: 5033258 + 3395647 + 140431 + 100311 + 65022 + 65169, element: "feuille" },//
-  { pseudo: "Rosalin", puissance: 7828113 - 161532 + 212231, element: "feu" }//
-];
+// Données par défaut en cas d'erreur - Ennemis
+function getEnnemisParDefaut() {
+  return [
+    { pseudo: "ares", puissance: 25439923, element: "eau" },
+    { pseudo: "Jade", puissance: 23641875, element: "eau" },
+    { pseudo: "Tsubasa hanae", puissance: 19538495, element: "feu" },
+    { pseudo: "Devlin", puissance: 17145599, element: "feuille" },
+    { pseudo: "Zhao Yunlan", puissance: 10386108 + 5067970 + 591461 + 408430 + 170739 + 122041, element: "feu" },
+    { pseudo: "Anya", puissance: 16462354, element: "feu" },
+    { pseudo: "YumejiTM", puissance: 8739795 + 4552569 + 1521903 + 907120 + 298680 + 107065, element: "eau" },
+    { pseudo: "Gojo", puissance: 15086233, element: "feuille" },
+    { pseudo: "Taiga Hoshibami", puissance: 10224196 + 3451899 + 647524 + 565399 + 357480 + 251057, element: "feuille" },
+    { pseudo: "Meer", puissance: 14145102, element: "eau" },
+    { pseudo: "Affellia Light", puissance: 14727803, element: "eau" },
+    { pseudo: "Madame Lexie", puissance: 14919300, element: "eau" },
+    { pseudo: "fuyu", puissance: 14045663, element: "feuille" },
+    { pseudo: "Madden", puissance: 6400990 + 5775904 + 863088 + 142039 + 129686 + 66338, element: "eau" },
+    { pseudo: "Alana", puissance: 11697443, element: "eau" },
+    { pseudo: "Mr.Scarletella", puissance: 8791442 + 1558141 + 574910 + 371056 + 80782 + 62312, element: "feuille" },
+    { pseudo: "Yuka", puissance: 10767518, element: "eau" },
+    { pseudo: "Luna-Terra", puissance: 6619095 + 893682 + 295479 + 268545 + 267424 + 202262, element: "feu" },
+    { pseudo: "jade:3", puissance: 10927309, element: "feuille" },
+    { pseudo: "Aria", puissance: 9884378, element: "feuille" },
+    { pseudo: "Akira", puissance: 8281030, element: "feu" },
+    { pseudo: "j", puissance: 6835508, element: "feu" },
+    { pseudo: "ronin", puissance: 8279934, element: "feu" },
+    { pseudo: "Personne", puissance: 9215098, element: "feu" },
+    { pseudo: "call.us.angel", puissance: 5033258 + 3395647 + 140431 + 100311 + 65022 + 65169, element: "feuille" },
+    { pseudo: "Rosalin", puissance: 7828113 - 161532 + 212231, element: "feu" }
+  ];
+}
 
 document.addEventListener("DOMContentLoaded", async () => {
-  // Charger les joueurs depuis Google Sheets
+  // Charger les joueurs et ennemis depuis Google Sheets
   const joueurs = await chargerJoueursDepuisSheets();
+  const ennemis = await chargerEnnemisDepuisSheets();
   
   createOptionList("joueursList", joueurs, true);
   createOptionList("ennemisList", ennemis, false);
