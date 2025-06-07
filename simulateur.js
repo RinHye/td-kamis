@@ -113,13 +113,15 @@ function afficherResultats() {
   const output = document.getElementById("output");
   output.innerHTML = `
     <h3>Combat : ${resultats.joueur} VS ${resultats.ennemi}</h3>
-    <p><strong>KO nécessaires brut :</strong> ${resultats.nbKoBrut}</p>
-    <p><strong>Marge d'erreur :</strong> ${resultats.margeErreur}</p>
+    <p><strong>Nb KO brut :</strong> ${resultats.nbKoBrut}</p>
     <p><strong>Nb KO avec marge :</strong> ${resultats.nbKoFinal}</p>
+    <hr>
     <p><strong>Nb d'équipes brut :</strong> ${resultats.nbEquipes}</p>
     <p><strong>Nb d'équipes avec marge :</strong> ${resultats.nbEquipesFinal}</p>
     <small><i>Une équipe complète est composée de 6 personnes, soit 6 KO</i></small>
   `;
+  //    <p><strong>Marge d'erreur :</strong> ${resultats.margeErreur}</p>
+
 }
 
 // Fonction pour charger les données du Google Sheets - Joueurs (Forces guilde)

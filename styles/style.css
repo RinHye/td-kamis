@@ -67,6 +67,10 @@ h3 {
   }
 }
 
+hr {
+  border: 1px dashed #8e00ff;
+}
+
 .separator-left {
   border-left: 2px solid #f6ebff;
 }
