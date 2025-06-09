@@ -1,5 +1,25 @@
+:root {
+  --font-primary: "Nunito", sans-serif;
+  --font-secondary: "Josefin Sans", sans-serif;
+
+  --color-primary: #6400c2;
+  --color-secondary: #818CF8;
+  --color-accent: #ed87e8;
+  --color-background: rgb(236, 218, 255);
+  --color-dark: #2f2c37;
+  --color-btn: #560bad;
+  --color-btn-active: #3a0ca3;
+
+  --color-feu: #c43400;
+  --color-eau: #0048d9;
+  --color-feuille: #009e4d;
+
+  --color-separator: #f6ebff;
+  --color-dashed-border: #8e00ff;
+}
+
 * {
-  font-family: "Nunito", sans-serif;
+  font-family: var(--font-primary);
 }
 
 body, main, html {
@@ -13,30 +33,30 @@ body {
 }
 
 h2 {
-  margin-left: 8px;
   @media screen and (max-width: 500px) {
     margin-left: 0;
   }
 }
 
 h3 {
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: var(--font-secondary);
   font-size: 1.2rem;
   text-transform: uppercase;
-  color: #2f2c37;
+  color: var(--color-dark);
 }
 
 .big-title {
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: var(--font-secondary);
   font-size: 1.6rem;
   text-transform: uppercase;
-  color: #2f2c37;
+  color: var(--color-dark);
   text-align: center;
 }
 
 .bold {
   font-weight: bold;
 }
+
 .list-container {
   display: flex;
   flex-direction: column;
@@ -49,29 +69,81 @@ h3 {
 }
 
 .selected {
-  background-color: #ed87e8;
+  background-color: var(--color-accent);
   color: white;
 }
 
+.coolinput {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  position: static;
+  margin-bottom: 10px;
+}
+
+.coolinput label.text {
+  font-size: 0.75rem;
+  color: var(--color-secondary);
+  font-weight: 700;
+  position: relative;
+  top: 0.5rem;
+  margin: 0 0 0 7px;
+  padding: 0 3px;
+  background: white;
+  width: fit-content;
+}
+
+.coolinput input[type=text].input {
+  padding: 11px 10px;
+  font-size: 0.75rem;
+  border: 2px var(--color-secondary) solid;
+  border-radius: 5px;
+  background: white;
+}
+
+.coolinput input[type=text].input:focus {
+  outline: none;
+}
+
+.coolinput input {
+  padding: 8px 0 8px 8px;
+  border-radius: 10px;
+  border: 1px solid var(--color-secondary);
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-secondary);
+  }
+}
+
 .section {
+  .ml {
+    margin-left: 10px;
+    @media screen and (max-width: 500px) {
+      margin-left: 0;
+    }
+  }
+
   @media screen and (min-width: 500px) {
     width: 50%;
   }
   @media screen and (max-width: 500px) {
-    padding: 5px;
+    padding: 0;
+    width: auto;
   }
 }
+
 hr {
-  border: 1px dashed #8e00ff;
+  border: 1px dashed var(--color-dashed-border);
 }
+
 .separator-left {
-  border-left: 2px solid #f6ebff;
+  border-left: 2px solid var(--color-separator);
 }
 
 button {
   margin: 10px;
   border-style: none;
-  --color: #560bad;
+  --color: var(--color-btn);
   @media screen and (max-width: 500px) {
     margin: 0 0 10px 0;
   }
@@ -83,15 +155,15 @@ button {
   padding: 0 10px;
 
   &-feu {
-    background-color: #c43400;
+    background-color: var(--color-feu);
   }
 
   &-eau {
-    background-color: #0048d9;
+    background-color: var(--color-eau);
   }
 
   &-feuille {
-    background-color: #009e4d;
+    background-color: var(--color-feuille);
   }
 }
 
@@ -133,7 +205,7 @@ button {
     content: "";
     position: absolute;
     z-index: -1;
-    background: var(--color);
+    background: var(--color-btn);
     height: 150px;
     width: 200px;
     border-radius: 50%;
@@ -153,7 +225,7 @@ button {
 
   &:active {
     &:before {
-      background: #3a0ca3;
+      background: var(--color-btn-active);
       transition: background 0s;
     }
   }
@@ -163,8 +235,8 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 2px solid #6400c2;
-  background-color: rgb(236, 218, 255);
+  border: 2px solid var(--color-primary);
+  background-color: var(--color-background);
   border-radius: 10px;
   padding: 20px;
 
@@ -173,7 +245,6 @@ button {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    /* animation de pliage */
     max-height: 400px;
     overflow: hidden;
     transition: max-height 0.5s ease, padding 0.3s ease;
@@ -193,7 +264,7 @@ button {
   margin-top: 8px;
   cursor: pointer;
   font-size: 22px;
-  color: #6400c2;
+  color: var(--color-primary);
   transition: transform 0.3s ease;
 
   &.rotated i {
@@ -201,7 +272,7 @@ button {
   }
 
   i {
-    color: #6400c2;
+    color: var(--color-primary);
     font-size: 20px;
   }
 }

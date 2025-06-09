@@ -12,35 +12,52 @@
   <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
-  <main>
-      <div class="resultats" id="resDiv">
-        <h3 class="big-title">Résultats des calculs</h3>
-        <div class="content" id="contentRes">
-          <div id="output" class="section">
-            <h3>Aucun résultats pour le moment</h3>
-          </div>
-          <div>
-            <button id="btnCalculer">Calculer</button>
-          </div>
+<main>
+    <div class="resultats" id="resDiv">
+      <h3 class="big-title">Résultats des calculs</h3>
+      <div class="content" id="contentRes">
+        <div id="output" class="section">
+          <h3>Aucun résultats pour le moment</h3>
         </div>
-
-        <div class="toggle-arrow" id="toggleArrow">
-          <i class="fas fa-chevron-down"></i>
+        <div>
+          <button id="btnCalculer">Calculer</button>
         </div>
       </div>
-
-
-      <div class="main-container">
-          <div class="section">
-            <div><h2>Choisir une équipe</h2></div>
-            <div id="joueursList" class="list-container"></div>
-          </div>
-          <div class="section separator-left">
-            <div><h2>Choisir un adversaire</h2></div>
-            <div id="ennemisList" class="list-container"></div>
-          </div>
+      <div class="toggle-arrow" id="toggleArrow">
+        <i class="fas fa-chevron-down"></i>
       </div>
-  </main>
+    </div>
+    <div class="main-container">
+        <div class="section">
+          <div class="ml"><h2>Choisir une équipe</h2></div>
+          <div class="ml coolinput">
+            <label for="pseudo" class="text">Pseudo</label>
+            <input 
+              name="pseudo" 
+              type="text" 
+              id="pseudo" 
+              placeholder="Rechercher un membre" 
+              autocomplete="off"
+            >
+          </div>
+          <div id="joueursList" class="list-container"></div>
+        </div>
+        <div class="section separator-left">
+          <div class="ml"><h2>Choisir un ennemi</h2></div>
+          <div class="ml coolinput">
+            <label for="pseudoAdversaire" class="text">Pseudo</label>
+            <input 
+              name="pseudoAdversaire" 
+              type="text" 
+              id="pseudoAdversaire" 
+              placeholder="Rechercher un ennemi" 
+              autocomplete="off"
+            >
+          </div>
+          <div id="ennemisList" class="list-container"></div>
+        </div>
+    </div>
+</main>
   
 
   <script src="simulateur.js"></script>

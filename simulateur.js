@@ -266,17 +266,94 @@ function getEnnemisParDefaut() {
   ];
 }
 
+// Feature de recherche
+// Variables globales pour stocker les listes complètes
+let joueursComplets = [];
+let ennemisComplets = [];
+
+// Fonction de recherche pour filtrer les listes
+function search() {
+  const pseudoInput = document.getElementById("pseudo");
+  const pseudoAdversaireInput = document.getElementById("pseudoAdversaire");
+  
+  // Filtrer les joueurs si l'input pseudo a changé
+  if (pseudoInput && document.activeElement === pseudoInput) {
+    const searchTerm = pseudoInput.value.toLowerCase().trim();
+    const joueursFiltres = joueursComplets.filter(joueur => 
+      joueur.pseudo.toLowerCase().includes(searchTerm)
+    );
+    createOptionList("joueursList", joueursFiltres, true);
+  }
+  
+  // Filtrer les ennemis si l'input pseudoAdversaire a changé
+  if (pseudoAdversaireInput && document.activeElement === pseudoAdversaireInput) {
+    const searchTerm = pseudoAdversaireInput.value.toLowerCase().trim();
+    const ennemisFiltres = ennemisComplets.filter(ennemi => 
+      ennemi.pseudo.toLowerCase().includes(searchTerm)
+    );
+    createOptionList("ennemisList", ennemisFiltres, false);
+  }
+}
+
+// Fonction améliorée pour gérer la recherche en temps réel
+function setupSearchListeners() {
+  const pseudoInput = document.getElementById("pseudo");
+  const pseudoAdversaireInput = document.getElementById("pseudoAdversaire");
+  
+  // Gestionnaire pour la recherche d'équipes
+  if (pseudoInput) {
+    pseudoInput.addEventListener('input', function() {
+      const searchTerm = this.value.toLowerCase().trim();
+      const joueursFiltres = joueursComplets.filter(joueur => 
+        joueur.pseudo.toLowerCase().includes(searchTerm)
+      );
+      createOptionList("joueursList", joueursFiltres, true);
+    });
+    
+    // Réinitialiser la liste quand le champ est vidé
+    pseudoInput.addEventListener('blur', function() {
+      if (this.value.trim() === '') {
+        createOptionList("joueursList", joueursComplets, true);
+      }
+    });
+  }
+  
+  // Gestionnaire pour la recherche d'adversaires
+  if (pseudoAdversaireInput) {
+    pseudoAdversaireInput.addEventListener('input', function() {
+      const searchTerm = this.value.toLowerCase().trim();
+      const ennemisFiltres = ennemisComplets.filter(ennemi => 
+        ennemi.pseudo.toLowerCase().includes(searchTerm)
+      );
+      createOptionList("ennemisList", ennemisFiltres, false);
+    });
+    
+    // Réinitialiser la liste quand le champ est vidé
+    pseudoAdversaireInput.addEventListener('blur', function() {
+      if (this.value.trim() === '') {
+        createOptionList("ennemisList", ennemisComplets, false);
+      }
+    });
+  }
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
   // Charger les joueurs et ennemis depuis Google Sheets
-  const joueurs = await chargerJoueursDepuisSheets();
-  const ennemis = await chargerEnnemisDepuisSheets();
+  joueursComplets = await chargerJoueursDepuisSheets();
+  ennemisComplets = await chargerEnnemisDepuisSheets();
   
-  createOptionList("joueursList", joueurs, true);
-  createOptionList("ennemisList", ennemis, false);
+  // Créer les listes initiales
+  createOptionList("joueursList", joueursComplets, true);
+  createOptionList("ennemisList", ennemisComplets, false);
+  
+  // Configurer les listeners de recherche
+  setupSearchListeners();
 
   const btn = document.getElementById("btnCalculer");
   btn.addEventListener("click", afficherResultats);
+  
   const toggleArrow = document.getElementById("toggleArrow");
+  const contentRes = document.getElementById("contentRes");
 
   toggleArrow.addEventListener("click", () => {
     contentRes.classList.toggle("collapsed");
