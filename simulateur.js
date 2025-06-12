@@ -30,8 +30,9 @@ function getNbEquipes(nbKo, nbMembre) {
 }
 
 function simulationCombat(joueur, ennemi) {
-  const puissanceFinale = getPuissanceFinale(joueur.puissance, joueur.puissanceMain, joueur.element, ennemi.element);
-  const debuff = calcDebuff(puissanceFinale, ennemi.puissance);
+  const puissanceFinaleJoueur = getPuissanceFinale(joueur.puissance, joueur.puissanceMain, joueur.element, ennemi.element);
+  const puissanceFinaleEnnemi = getPuissanceFinale(ennemi.puissance, ennemi.puissanceMain, ennemi.element, joueur.element);
+  const debuff = calcDebuff(puissanceFinaleJoueur, puissanceFinaleEnnemi);
   const nbKo = getNbKo(debuff);
   const nbEquipes = getNbEquipes(nbKo, joueur.nbMembre);
   const margeErreur = getMargeErreur(nbKo, joueur, ennemi);
@@ -48,8 +49,12 @@ function simulationCombat(joueur, ennemi) {
 }
 
 function getMargeErreur(nbKo, joueur, ennemi) {
-  const diffPuissance = Math.abs(joueur.puissance - ennemi.puissance);
-  const ratioIncertain = diffPuissance / ennemi.puissance;
+  // Calculer les puissances finales pour obtenir les vraies puissances effectives
+  const puissanceFinaleJoueur = getPuissanceFinale(joueur.puissance, joueur.puissanceMain, joueur.element, ennemi.element);
+  const puissanceFinaleEnnemi = getPuissanceFinale(ennemi.puissance, ennemi.puissanceMain, ennemi.element, joueur.element);
+  
+  const diffPuissance = Math.abs(puissanceFinaleJoueur - puissanceFinaleEnnemi);
+  const ratioIncertain = diffPuissance / puissanceFinaleEnnemi;
 
   const coeffElem = getCoeffElementaire(joueur.element, ennemi.element);
 
@@ -192,19 +197,21 @@ async function chargerEnnemisDepuisSheets() {
       
       const colonnes = ligne.split(',');
       
-      // Vérifier qu'on a au moins 3 colonnes et que les données ne sont pas vides
-      // Colonnes : Pseudo, Puissance totale, Elément du main
-      if (colonnes.length >= 3 && colonnes[0].trim() && colonnes[1].trim() && colonnes[2].trim()) {
+      // Vérifier qu'on a au moins 4 colonnes et que les données ne sont pas vides
+      // Colonnes : Pseudo, Puissance totale, Puissance Main, Elément du main
+      if (colonnes.length >= 4 && colonnes[0].trim() && colonnes[1].trim() && colonnes[2].trim() && colonnes[3].trim()) {
         const pseudo = colonnes[0].trim().replace(/"/g, ''); // Enlever les guillemets si présents
         const puissance = parseInt(colonnes[1].trim().replace(/"/g, ''));
-        const element = colonnes[2].trim().replace(/"/g, '').toLowerCase();
+        const puissanceMain = parseInt(colonnes[2].trim().replace(/"/g, ''));
+        const element = colonnes[3].trim().replace(/"/g, '').toLowerCase();
         
-        // Vérifier que la puissance est un nombre valide
-        if (!isNaN(puissance) && pseudo && element) {
+        // Vérifier que les puissances sont des nombres valides
+        if (!isNaN(puissance) && !isNaN(puissanceMain) && pseudo && element) {
           ennemis.push({
             pseudo: pseudo,
             puissance: puissance,
-            element: element
+            element: element,
+            puissanceMain: puissanceMain
           });
         }
       }
@@ -237,32 +244,32 @@ function getJoueursParDefaut() {
 // Données par défaut en cas d'erreur - Ennemis
 function getEnnemisParDefaut() {
   return [
-    { pseudo: "ares", puissance: 25439923, element: "eau" },
-    { pseudo: "Jade", puissance: 23641875, element: "eau" },
-    { pseudo: "Tsubasa hanae", puissance: 19538495, element: "feu" },
-    { pseudo: "Devlin", puissance: 17145599, element: "feuille" },
-    { pseudo: "Zhao Yunlan", puissance: 10386108 + 5067970 + 591461 + 408430 + 170739 + 122041, element: "feu" },
-    { pseudo: "Anya", puissance: 16462354, element: "feu" },
-    { pseudo: "YumejiTM", puissance: 8739795 + 4552569 + 1521903 + 907120 + 298680 + 107065, element: "eau" },
-    { pseudo: "Gojo", puissance: 15086233, element: "feuille" },
-    { pseudo: "Taiga Hoshibami", puissance: 10224196 + 3451899 + 647524 + 565399 + 357480 + 251057, element: "feuille" },
-    { pseudo: "Meer", puissance: 14145102, element: "eau" },
-    { pseudo: "Affellia Light", puissance: 14727803, element: "eau" },
-    { pseudo: "Madame Lexie", puissance: 14919300, element: "eau" },
-    { pseudo: "fuyu", puissance: 14045663, element: "feuille" },
-    { pseudo: "Madden", puissance: 6400990 + 5775904 + 863088 + 142039 + 129686 + 66338, element: "eau" },
-    { pseudo: "Alana", puissance: 11697443, element: "eau" },
-    { pseudo: "Mr.Scarletella", puissance: 8791442 + 1558141 + 574910 + 371056 + 80782 + 62312, element: "feuille" },
-    { pseudo: "Yuka", puissance: 10767518, element: "eau" },
-    { pseudo: "Luna-Terra", puissance: 6619095 + 893682 + 295479 + 268545 + 267424 + 202262, element: "feu" },
-    { pseudo: "jade:3", puissance: 10927309, element: "feuille" },
-    { pseudo: "Aria", puissance: 9884378, element: "feuille" },
-    { pseudo: "Akira", puissance: 8281030, element: "feu" },
-    { pseudo: "j", puissance: 6835508, element: "feu" },
-    { pseudo: "ronin", puissance: 8279934, element: "feu" },
-    { pseudo: "Personne", puissance: 9215098, element: "feu" },
-    { pseudo: "call.us.angel", puissance: 5033258 + 3395647 + 140431 + 100311 + 65022 + 65169, element: "feuille" },
-    { pseudo: "Rosalin", puissance: 7828113 - 161532 + 212231, element: "feu" }
+    { pseudo: "ares", puissance: 25439923, element: "eau", puissanceMain: 15000000 },
+    { pseudo: "Jade", puissance: 23641875, element: "eau", puissanceMain: 14000000 },
+    { pseudo: "Tsubasa hanae", puissance: 19538495, element: "feu", puissanceMain: 12000000 },
+    { pseudo: "Devlin", puissance: 17145599, element: "feuille", puissanceMain: 10000000 },
+    { pseudo: "Zhao Yunlan", puissance: 10386108 + 5067970 + 591461 + 408430 + 170739 + 122041, element: "feu", puissanceMain: 10386108 },
+    { pseudo: "Anya", puissance: 16462354, element: "feu", puissanceMain: 9500000 },
+    { pseudo: "YumejiTM", puissance: 8739795 + 4552569 + 1521903 + 907120 + 298680 + 107065, element: "eau", puissanceMain: 8739795 },
+    { pseudo: "Gojo", puissance: 15086233, element: "feuille", puissanceMain: 9000000 },
+    { pseudo: "Taiga Hoshibami", puissance: 10224196 + 3451899 + 647524 + 565399 + 357480 + 251057, element: "feuille", puissanceMain: 10224196 },
+    { pseudo: "Meer", puissance: 14145102, element: "eau", puissanceMain: 8500000 },
+    { pseudo: "Affellia Light", puissance: 14727803, element: "eau", puissanceMain: 8800000 },
+    { pseudo: "Madame Lexie", puissance: 14919300, element: "eau", puissanceMain: 8900000 },
+    { pseudo: "fuyu", puissance: 14045663, element: "feuille", puissanceMain: 8400000 },
+    { pseudo: "Madden", puissance: 6400990 + 5775904 + 863088 + 142039 + 129686 + 66338, element: "eau", puissanceMain: 6400990 },
+    { pseudo: "Alana", puissance: 11697443, element: "eau", puissanceMain: 7000000 },
+    { pseudo: "Mr.Scarletella", puissance: 8791442 + 1558141 + 574910 + 371056 + 80782 + 62312, element: "feuille", puissanceMain: 8791442 },
+    { pseudo: "Yuka", puissance: 10767518, element: "eau", puissanceMain: 6500000 },
+    { pseudo: "Luna-Terra", puissance: 6619095 + 893682 + 295479 + 268545 + 267424 + 202262, element: "feu", puissanceMain: 6619095 },
+    { pseudo: "jade:3", puissance: 10927309, element: "feuille", puissanceMain: 6600000 },
+    { pseudo: "Aria", puissance: 9884378, element: "feuille", puissanceMain: 6000000 },
+    { pseudo: "Akira", puissance: 8281030, element: "feu", puissanceMain: 5000000 },
+    { pseudo: "j", puissance: 6835508, element: "feu", puissanceMain: 4100000 },
+    { pseudo: "ronin", puissance: 8279934, element: "feu", puissanceMain: 5000000 },
+    { pseudo: "Personne", puissance: 9215098, element: "feu", puissanceMain: 5500000 },
+    { pseudo: "call.us.angel", puissance: 5033258 + 3395647 + 140431 + 100311 + 65022 + 65169, element: "feuille", puissanceMain: 5033258 },
+    { pseudo: "Rosalin", puissance: 7828113 - 161532 + 212231, element: "feu", puissanceMain: 4700000 }
   ];
 }
 
