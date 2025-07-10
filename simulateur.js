@@ -4,6 +4,8 @@ const relationsElement = {
   feuille: "eau"
 };
 
+const urlGuilde = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTEMMJK57wJeclZwYw8ayCOhO9hx8uMpIbLKadj7axvVCWR_x18N6F9BwQDt7LgZA/pub?gid=955213893&single=true&output=csv";
+const urlAdverse = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTEMMJK57wJeclZwYw8ayCOhO9hx8uMpIbLKadj7axvVCWR_x18N6F9BwQDt7LgZA/pub?gid=184683018&single=true&output=csv";
 function getCoeffElementaire(elementAttaquant, elementCible) {
   if (elementAttaquant === elementCible) return 1.0;
   if (relationsElement[elementAttaquant] === elementCible) return 1.2;
@@ -130,9 +132,8 @@ function afficherResultats() {
 }
 
 // Fonction pour charger les données du Google Sheets - Joueurs (Forces guilde)
-async function chargerJoueursDepuisSheets() {
-  const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTEMMJK57wJeclZwYw8ayCOhO9hx8uMpIbLKadj7axvVCWR_x18N6F9BwQDt7LgZA/pub?gid=955213893&single=true&output=csv";
-  
+async function chargerJoueursDepuisSheets(isInverted = false) {
+  const url = isInverted ? urlAdverse : urlGuilde;
   try {
     const response = await fetch(url);
     const csvText = await response.text();
@@ -178,8 +179,8 @@ async function chargerJoueursDepuisSheets() {
 }
 
 // Fonction pour charger les ennemis depuis Google Sheets - Ennemis (Forces ennemis)
-async function chargerEnnemisDepuisSheets() {
-  const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTEMMJK57wJeclZwYw8ayCOhO9hx8uMpIbLKadj7axvVCWR_x18N6F9BwQDt7LgZA/pub?gid=184683018&single=true&output=csv";
+async function chargerEnnemisDepuisSheets(isInverted = false) {
+  const url = isInverted ? urlGuilde : urlAdverse;
   
   try {
     const response = await fetch(url);
@@ -345,9 +346,12 @@ function setupSearchListeners() {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
+  const path = window.location.pathname;
+  const isInverted = path.endsWith("/invert.html");
   // Charger les joueurs et ennemis depuis Google Sheets
-  joueursComplets = await chargerJoueursDepuisSheets();
-  ennemisComplets = await chargerEnnemisDepuisSheets();
+  
+  joueursComplets = await chargerJoueursDepuisSheets(isInverted);
+  ennemisComplets = await chargerEnnemisDepuisSheets(isInverted);
   
   // Créer les listes initiales
   createOptionList("joueursList", joueursComplets, true);
