@@ -149,6 +149,16 @@ button {
   }
 }
 
+.btnInvert {
+  padding: 5px;
+  background-color: var(--color-btn);
+  color: white;
+  a {
+    text-decoration: none;
+    color: white;
+  }
+}
+
 .etiquette {
   border-radius: 20px;
   color: white;
