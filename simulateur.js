@@ -12,9 +12,26 @@ function getCoeffElementaire(elementAttaquant, elementCible) {
   return 0.8;
 }
 
-function getPuissanceFinale(puissanceEquipe, puissanceMain, elementAttaquant, elementCible) {
-  const coeff = getCoeffElementaire(elementAttaquant, elementCible);
-  return puissanceEquipe - puissanceMain + puissanceMain * coeff;
+function getPuissanceFinale(joueur, ennemi) {
+  const { puissance, puissanceMain, puissanceMain2, element, element2 } = joueur;
+
+  const subsCount = puissanceMain2 ? 4 : 5;
+  const puissanceSub = (puissance - puissanceMain - (puissanceMain2 || 0)) / subsCount;
+
+  const team = [
+    { puissance: puissanceMain, element: element },
+    ...(puissanceMain2 ? [{ puissance: puissanceMain2, element: element2 }] : []),
+    ...Array(subsCount).fill({ puissance: puissanceSub, element: null }) // null element = pas d'avantage élémentaire
+  ];
+
+  let puissanceFinale = 0;
+
+  for (const membre of team) {
+    const coeff = membre.element ? getCoeffElementaire(membre.element, ennemi.element) : 1;
+    puissanceFinale += membre.puissance * coeff;
+  }
+
+  return puissanceFinale;
 }
 
 function calcDebuff(puissanceFinale, puissanceCible) {
@@ -32,8 +49,8 @@ function getNbEquipes(nbKo, nbMembre) {
 }
 
 function simulationCombat(joueur, ennemi) {
-  const puissanceFinaleJoueur = getPuissanceFinale(joueur.puissance, joueur.puissanceMain, joueur.element, ennemi.element);
-  const puissanceFinaleEnnemi = getPuissanceFinale(ennemi.puissance, ennemi.puissanceMain, ennemi.element, joueur.element);
+  const puissanceFinaleJoueur = getPuissanceFinale(joueur, ennemi);
+  const puissanceFinaleEnnemi = getPuissanceFinale(ennemi, joueur);
   const debuff = calcDebuff(puissanceFinaleJoueur, puissanceFinaleEnnemi);
   const nbKo = getNbKo(debuff);
   const nbEquipes = getNbEquipes(nbKo, joueur.nbMembre);
@@ -52,9 +69,8 @@ function simulationCombat(joueur, ennemi) {
 
 function getMargeErreur(nbKo, joueur, ennemi) {
   // Calculer les puissances finales pour obtenir les vraies puissances effectives
-  const puissanceFinaleJoueur = getPuissanceFinale(joueur.puissance, joueur.puissanceMain, joueur.element, ennemi.element);
-  const puissanceFinaleEnnemi = getPuissanceFinale(ennemi.puissance, ennemi.puissanceMain, ennemi.element, joueur.element);
-  
+  const puissanceFinaleJoueur = getPuissanceFinale(joueur, ennemi);
+  const puissanceFinaleEnnemi = getPuissanceFinale(ennemi, joueur);
   const diffPuissance = Math.abs(puissanceFinaleJoueur - puissanceFinaleEnnemi);
   const ratioIncertain = diffPuissance / puissanceFinaleEnnemi;
 
@@ -156,16 +172,19 @@ async function chargerJoueursDepuisSheets(isInverted = false) {
         const puissance = parseInt(colonnes[1].trim().replace(/"/g, ''));
         const puissanceMain = parseInt(colonnes[2].trim().replace(/"/g, ''));
         const element = colonnes[3].trim().replace(/"/g, '').toLowerCase();
-        
+        const puissanceMain2 = colonnes[4] ? parseInt(colonnes[4].trim().replace(/"/g, '')) : null;
+        const element2 = colonnes[5] ? colonnes[5].trim().replace(/"/g, '').toLowerCase() : null;
         // Vérifier que les puissances sont des nombres valides
         if (!isNaN(puissance) && !isNaN(puissanceMain) && pseudo && element) {
-          joueurs.push({
-            pseudo: pseudo,
-            puissance: puissance,
-            element: element,
-            puissanceMain: puissanceMain,
-            nbMembre: 6
-          });
+        joueurs.push({
+          pseudo: pseudo,
+          puissance: puissance,
+          puissanceMain: puissanceMain,
+          element: element,
+          puissanceMain2: isNaN(puissanceMain2) ? null : puissanceMain2,
+          element2: element2 || null,
+          nbMembre: 6
+        });
         }
       }
     }
@@ -205,14 +224,20 @@ async function chargerEnnemisDepuisSheets(isInverted = false) {
         const puissance = parseInt(colonnes[1].trim().replace(/"/g, ''));
         const puissanceMain = parseInt(colonnes[2].trim().replace(/"/g, ''));
         const element = colonnes[3].trim().replace(/"/g, '').toLowerCase();
-        
+
+        const puissanceMain2 = colonnes[4] ? parseInt(colonnes[4].trim().replace(/"/g, '')) : null;
+        const element2 = colonnes[5] ? colonnes[5].trim().replace(/"/g, '').toLowerCase() : null;
+
         // Vérifier que les puissances sont des nombres valides
         if (!isNaN(puissance) && !isNaN(puissanceMain) && pseudo && element) {
           ennemis.push({
             pseudo: pseudo,
             puissance: puissance,
+            puissanceMain: puissanceMain,
             element: element,
-            puissanceMain: puissanceMain
+            puissanceMain2: isNaN(puissanceMain2) ? null : puissanceMain2,
+            element2: element2 || null,
+            nbMembre: 6
           });
         }
       }
@@ -386,3 +411,95 @@ window.addEventListener('scroll', function() {
     div.classList.remove('active');
   }
 });
+
+/*
+  TEST IMMEDIAT EN CONSOLE
+*/
+
+const joueurTest = {
+  pseudo: "Fouet",
+  puissance: 9000000,
+  puissanceMain: 75000000,
+  element: "eau",
+  //puissanceMain2: 4000000,  // facultatif
+  //element2: "eau",          // facultatif
+  nbMembre: 6
+};
+
+/*
+const joueurTest = {
+  pseudo: "Alex",
+  puissance: 15772558,
+  puissanceMain: 10000000,
+  element: "feu",
+  //puissanceMain2: 4000000,  // facultatif
+  //element2: "eau",          // facultatif
+  nbMembre: 6
+};
+const joueurTest = {
+  pseudo: "Lou",
+  puissance: 13415383,
+  puissanceMain: 9672288,
+  element: "eau",
+  //puissanceMain2: 4000000,  // facultatif
+  //element2: "eau",          // facultatif
+  nbMembre: 6
+};
+
+const joueurTest = {
+  pseudo: "Fouet",
+  puissance: 9000000,
+  puissanceMain: 75000000,
+  element: "eau",
+  //puissanceMain2: 4000000,  // facultatif
+  //element2: "eau",          // facultatif
+  nbMembre: 6
+};
+
+const joueurTest = {
+  pseudo: "Yunnie",
+  puissance: 5037599,
+  puissanceMain: 2533959,
+  element: "feu",
+  //puissanceMain2: 4000000,  // facultatif
+  //element2: "eau",          // facultatif
+  nbMembre: 6
+};
+
+const joueurTest = {
+  pseudo: "Yunnie",
+  puissance: 5037599,
+  puissanceMain: 2533959,
+  element: "feu",
+  //puissanceMain2: 4000000,  // facultatif
+  //element2: "eau",          // facultatif
+  nbMembre: 6
+};
+
+const joueurTest = {
+  pseudo: "Banane",
+  puissance: 1204705,
+  puissanceMain: 404452,
+  element: "feu",
+  //puissanceMain2: 4000000,  // facultatif
+  //element2: "eau",          // facultatif
+  nbMembre: 6
+};
+
+*/
+// Ennemi de test
+const ennemiTest = {
+  pseudo: "Moomin",
+  puissance: 7650032,
+  puissanceMain: 3500000,
+  element: "feuille",
+  //puissanceMain2: 3000000,  // facultatif
+  //element2: "feu",          // facultatif
+  nbMembre: 6
+};
+
+// Calculer le combat
+const resultatsTest = simulationCombat(joueurTest, ennemiTest);
+
+// Afficher le résultat dans la console
+console.log(resultatsTest);
