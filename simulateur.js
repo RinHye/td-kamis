@@ -105,15 +105,35 @@ function createOptionList(containerId, list, isJoueur) {
     } else if (item.element === "feuille") {
       etiquetteClass += " etiquette-feuille";
     }
+
+    let etiquetteClass2 = "etiquette";
+    if (item.element2 === "feu") {
+      etiquetteClass2 += " etiquette-feu";
+    } else if (item.element2 === "eau") {
+      etiquetteClass2 += " etiquette-eau";
+    } else if (item.element2 === "feuille") {
+      etiquetteClass2 += " etiquette-feuille";
+    }
     
-    btn.innerHTML = 
-    `<div class="nom-et-element">
+    elementButton = `
+    <div class="nom-et-element">
         <span class="bold">${item.pseudo}</span>
         <div class="${etiquetteClass}">${item.element}</div>
-    </div>
+    `;
+    if (item.element2) {
+      elementButton += 
+      `<div class="${etiquetteClass2}">${item.element2}</div>`;
+    }
+        
+    elementButton += `</div>
     <div>
       <span class="bold">Puissance : </span>${item.puissance}
     </div>`;
+    if (item.puissanceMain2) {
+      elementButton += `<div><span class="bold">Puissance2 : </span>${item.puissanceMain2}</div>`;
+    }
+    btn.innerHTML = elementButton;
+
     btn.className = "select-button";
     btn.type = "button";
     
@@ -123,6 +143,7 @@ function createOptionList(containerId, list, isJoueur) {
       if (isJoueur) window.selectedJoueur = item;
       else window.selectedEnnemi = item;
     });
+    console.log(item);
     container.appendChild(btn);
   });
 }
