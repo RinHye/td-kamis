@@ -127,10 +127,11 @@ function createOptionList(containerId, list, isJoueur) {
         
     elementButton += `</div>
     <div>
-      <span class="bold">Puissance : </span>${item.puissance}
+      <span class="bold">Puissance totale : </span>${item.puissance}
     </div>`;
     if (item.puissanceMain2) {
-      elementButton += `<div><span class="bold">Puissance2 : </span>${item.puissanceMain2}</div>`;
+      elementButton += `<div><span class="bold">Puissance Main 1 : </span>${item.puissanceMain}</div>`;
+      elementButton += `<div><span class="bold">Puissance Main 2 : </span>${item.puissanceMain2}</div>`;
     }
     btn.innerHTML = elementButton;
 
